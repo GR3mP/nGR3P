@@ -162,12 +162,14 @@ type Config struct {
 	Fallbacks     []*Fallback            `protobuf:"bytes,2,rep,name=fallbacks,proto3" json:"fallbacks,omitempty"`
 	Decryption    string                 `protobuf:"bytes,3,opt,name=decryption,proto3" json:"decryption,omitempty"`
 	XorMode       uint32                 `protobuf:"varint,4,opt,name=xorMode,proto3" json:"xorMode,omitempty"`
-	SecondsFrom   int64                  `protobuf:"varint,5,opt,name=seconds_from,json=secondsFrom,proto3" json:"seconds_from,omitempty"`
-	SecondsTo     int64                  `protobuf:"varint,6,opt,name=seconds_to,json=secondsTo,proto3" json:"seconds_to,omitempty"`
-	Padding       string                 `protobuf:"bytes,7,opt,name=padding,proto3" json:"padding,omitempty"`
-	Mode          Config_Mode            `protobuf:"varint,8,opt,name=mode,proto3,enum=xray.proxy.gmesh.inbound.Config_Mode" json:"mode,omitempty"`
-	NodeId        string                 `protobuf:"bytes,9,opt,name=node_id,json=nodeId,proto3" json:"node_id,omitempty"`
-	Version       uint32                 `protobuf:"varint,10,opt,name=version,proto3" json:"version,omitempty"`
+	Padding       string                 `protobuf:"bytes,5,opt,name=padding,proto3" json:"padding,omitempty"`
+	Mode          Config_Mode            `protobuf:"varint,6,opt,name=mode,proto3,enum=xray.proxy.gmesh.inbound.Config_Mode" json:"mode,omitempty"`
+	NodeId        string                 `protobuf:"bytes,7,opt,name=node_id,json=nodeId,proto3" json:"node_id,omitempty"`
+	Version       uint32                 `protobuf:"varint,8,opt,name=version,proto3" json:"version,omitempty"`
+	Discovery     *Config_Discovery      `protobuf:"bytes,9,opt,name=discovery,proto3" json:"discovery,omitempty"`
+	Routing       *Config_Routing        `protobuf:"bytes,10,opt,name=routing,proto3" json:"routing,omitempty"`
+	SecondsFrom   int64                  `protobuf:"varint,11,opt,name=seconds_from,json=secondsFrom,proto3" json:"seconds_from,omitempty"`
+	SecondsTo     int64                  `protobuf:"varint,12,opt,name=seconds_to,json=secondsTo,proto3" json:"seconds_to,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -230,20 +232,6 @@ func (x *Config) GetXorMode() uint32 {
 	return 0
 }
 
-func (x *Config) GetSecondsFrom() int64 {
-	if x != nil {
-		return x.SecondsFrom
-	}
-	return 0
-}
-
-func (x *Config) GetSecondsTo() int64 {
-	if x != nil {
-		return x.SecondsTo
-	}
-	return 0
-}
-
 func (x *Config) GetPadding() string {
 	if x != nil {
 		return x.Padding
@@ -272,6 +260,154 @@ func (x *Config) GetVersion() uint32 {
 	return 0
 }
 
+func (x *Config) GetDiscovery() *Config_Discovery {
+	if x != nil {
+		return x.Discovery
+	}
+	return nil
+}
+
+func (x *Config) GetRouting() *Config_Routing {
+	if x != nil {
+		return x.Routing
+	}
+	return nil
+}
+
+func (x *Config) GetSecondsFrom() int64 {
+	if x != nil {
+		return x.SecondsFrom
+	}
+	return 0
+}
+
+func (x *Config) GetSecondsTo() int64 {
+	if x != nil {
+		return x.SecondsTo
+	}
+	return 0
+}
+
+type Config_Discovery struct {
+	state                protoimpl.MessageState `protogen:"open.v1"`
+	LanDiscovery         bool                   `protobuf:"varint,1,opt,name=lan_discovery,json=lanDiscovery,proto3" json:"lan_discovery,omitempty"`
+	AnnouncementInterval uint32                 `protobuf:"varint,2,opt,name=announcement_interval,json=announcementInterval,proto3" json:"announcement_interval,omitempty"`
+	DhtNetworkId         string                 `protobuf:"bytes,3,opt,name=dht_network_id,json=dhtNetworkId,proto3" json:"dht_network_id,omitempty"`
+	unknownFields        protoimpl.UnknownFields
+	sizeCache            protoimpl.SizeCache
+}
+
+func (x *Config_Discovery) Reset() {
+	*x = Config_Discovery{}
+	mi := &file_proxy_gmesh_inbound_config_proto_msgTypes[2]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *Config_Discovery) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*Config_Discovery) ProtoMessage() {}
+
+func (x *Config_Discovery) ProtoReflect() protoreflect.Message {
+	mi := &file_proxy_gmesh_inbound_config_proto_msgTypes[2]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use Config_Discovery.ProtoReflect.Descriptor instead.
+func (*Config_Discovery) Descriptor() ([]byte, []int) {
+	return file_proxy_gmesh_inbound_config_proto_rawDescGZIP(), []int{1, 0}
+}
+
+func (x *Config_Discovery) GetLanDiscovery() bool {
+	if x != nil {
+		return x.LanDiscovery
+	}
+	return false
+}
+
+func (x *Config_Discovery) GetAnnouncementInterval() uint32 {
+	if x != nil {
+		return x.AnnouncementInterval
+	}
+	return 0
+}
+
+func (x *Config_Discovery) GetDhtNetworkId() string {
+	if x != nil {
+		return x.DhtNetworkId
+	}
+	return ""
+}
+
+type Config_Routing struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	MaxPeers      uint32                 `protobuf:"varint,1,opt,name=max_peers,json=maxPeers,proto3" json:"max_peers,omitempty"`
+	Strategy      string                 `protobuf:"bytes,2,opt,name=strategy,proto3" json:"strategy,omitempty"`
+	RouteTtl      uint32                 `protobuf:"varint,3,opt,name=route_ttl,json=routeTtl,proto3" json:"route_ttl,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *Config_Routing) Reset() {
+	*x = Config_Routing{}
+	mi := &file_proxy_gmesh_inbound_config_proto_msgTypes[3]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *Config_Routing) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*Config_Routing) ProtoMessage() {}
+
+func (x *Config_Routing) ProtoReflect() protoreflect.Message {
+	mi := &file_proxy_gmesh_inbound_config_proto_msgTypes[3]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use Config_Routing.ProtoReflect.Descriptor instead.
+func (*Config_Routing) Descriptor() ([]byte, []int) {
+	return file_proxy_gmesh_inbound_config_proto_rawDescGZIP(), []int{1, 1}
+}
+
+func (x *Config_Routing) GetMaxPeers() uint32 {
+	if x != nil {
+		return x.MaxPeers
+	}
+	return 0
+}
+
+func (x *Config_Routing) GetStrategy() string {
+	if x != nil {
+		return x.Strategy
+	}
+	return ""
+}
+
+func (x *Config_Routing) GetRouteTtl() uint32 {
+	if x != nil {
+		return x.RouteTtl
+	}
+	return 0
+}
+
 var File_proxy_gmesh_inbound_config_proto protoreflect.FileDescriptor
 
 const file_proxy_gmesh_inbound_config_proto_rawDesc = "" +
@@ -283,22 +419,32 @@ const file_proxy_gmesh_inbound_config_proto_rawDesc = "" +
 	"\x04path\x18\x03 \x01(\tR\x04path\x12\x12\n" +
 	"\x04type\x18\x04 \x01(\tR\x04type\x12\x12\n" +
 	"\x04dest\x18\x05 \x01(\tR\x04dest\x12\x12\n" +
-	"\x04xver\x18\x06 \x01(\x04R\x04xver\"\xb4\x03\n" +
+	"\x04xver\x18\x06 \x01(\x04R\x04xver\"\xb1\x06\n" +
 	"\x06Config\x124\n" +
 	"\aclients\x18\x01 \x03(\v2\x1a.xray.common.protocol.UserR\aclients\x12@\n" +
 	"\tfallbacks\x18\x02 \x03(\v2\".xray.proxy.gmesh.inbound.FallbackR\tfallbacks\x12\x1e\n" +
 	"\n" +
 	"decryption\x18\x03 \x01(\tR\n" +
 	"decryption\x12\x18\n" +
-	"\axorMode\x18\x04 \x01(\rR\axorMode\x12!\n" +
-	"\fseconds_from\x18\x05 \x01(\x03R\vsecondsFrom\x12\x1d\n" +
+	"\axorMode\x18\x04 \x01(\rR\axorMode\x12\x18\n" +
+	"\apadding\x18\x05 \x01(\tR\apadding\x129\n" +
+	"\x04mode\x18\x06 \x01(\x0e2%.xray.proxy.gmesh.inbound.Config.ModeR\x04mode\x12\x17\n" +
+	"\anode_id\x18\a \x01(\tR\x06nodeId\x12\x18\n" +
+	"\aversion\x18\b \x01(\rR\aversion\x12H\n" +
+	"\tdiscovery\x18\t \x01(\v2*.xray.proxy.gmesh.inbound.Config.DiscoveryR\tdiscovery\x12B\n" +
+	"\arouting\x18\n" +
+	" \x01(\v2(.xray.proxy.gmesh.inbound.Config.RoutingR\arouting\x12!\n" +
+	"\fseconds_from\x18\v \x01(\x03R\vsecondsFrom\x12\x1d\n" +
 	"\n" +
-	"seconds_to\x18\x06 \x01(\x03R\tsecondsTo\x12\x18\n" +
-	"\apadding\x18\a \x01(\tR\apadding\x129\n" +
-	"\x04mode\x18\b \x01(\x0e2%.xray.proxy.gmesh.inbound.Config.ModeR\x04mode\x12\x17\n" +
-	"\anode_id\x18\t \x01(\tR\x06nodeId\x12\x18\n" +
-	"\aversion\x18\n" +
-	" \x01(\rR\aversion\".\n" +
+	"seconds_to\x18\f \x01(\x03R\tsecondsTo\x1a\x8b\x01\n" +
+	"\tDiscovery\x12#\n" +
+	"\rlan_discovery\x18\x01 \x01(\bR\flanDiscovery\x123\n" +
+	"\x15announcement_interval\x18\x02 \x01(\rR\x14announcementInterval\x12$\n" +
+	"\x0edht_network_id\x18\x03 \x01(\tR\fdhtNetworkId\x1a_\n" +
+	"\aRouting\x12\x1b\n" +
+	"\tmax_peers\x18\x01 \x01(\rR\bmaxPeers\x12\x1a\n" +
+	"\bstrategy\x18\x02 \x01(\tR\bstrategy\x12\x1b\n" +
+	"\troute_ttl\x18\x03 \x01(\rR\brouteTtl\".\n" +
 	"\x04Mode\x12\x11\n" +
 	"\rCOMPATIBILITY\x10\x00\x12\t\n" +
 	"\x05RELAY\x10\x01\x12\b\n" +
@@ -317,26 +463,27 @@ func file_proxy_gmesh_inbound_config_proto_rawDescGZIP() []byte {
 	return file_proxy_gmesh_inbound_config_proto_rawDescData
 }
 
-var (
-	file_proxy_gmesh_inbound_config_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
-	file_proxy_gmesh_inbound_config_proto_msgTypes  = make([]protoimpl.MessageInfo, 2)
-	file_proxy_gmesh_inbound_config_proto_goTypes   = []any{
-		(Config_Mode)(0),      // 0: xray.proxy.gmesh.inbound.Config.Mode
-		(*Fallback)(nil),      // 1: xray.proxy.gmesh.inbound.Fallback
-		(*Config)(nil),        // 2: xray.proxy.gmesh.inbound.Config
-		(*protocol.User)(nil), // 3: xray.common.protocol.User
-	}
-)
-
+var file_proxy_gmesh_inbound_config_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
+var file_proxy_gmesh_inbound_config_proto_msgTypes = make([]protoimpl.MessageInfo, 4)
+var file_proxy_gmesh_inbound_config_proto_goTypes = []any{
+	(Config_Mode)(0),         // 0: xray.proxy.gmesh.inbound.Config.Mode
+	(*Fallback)(nil),         // 1: xray.proxy.gmesh.inbound.Fallback
+	(*Config)(nil),           // 2: xray.proxy.gmesh.inbound.Config
+	(*Config_Discovery)(nil), // 3: xray.proxy.gmesh.inbound.Config.Discovery
+	(*Config_Routing)(nil),   // 4: xray.proxy.gmesh.inbound.Config.Routing
+	(*protocol.User)(nil),    // 5: xray.common.protocol.User
+}
 var file_proxy_gmesh_inbound_config_proto_depIdxs = []int32{
-	3, // 0: xray.proxy.gmesh.inbound.Config.clients:type_name -> xray.common.protocol.User
+	5, // 0: xray.proxy.gmesh.inbound.Config.clients:type_name -> xray.common.protocol.User
 	1, // 1: xray.proxy.gmesh.inbound.Config.fallbacks:type_name -> xray.proxy.gmesh.inbound.Fallback
 	0, // 2: xray.proxy.gmesh.inbound.Config.mode:type_name -> xray.proxy.gmesh.inbound.Config.Mode
-	3, // [3:3] is the sub-list for method output_type
-	3, // [3:3] is the sub-list for method input_type
-	3, // [3:3] is the sub-list for extension type_name
-	3, // [3:3] is the sub-list for extension extendee
-	0, // [0:3] is the sub-list for field type_name
+	3, // 3: xray.proxy.gmesh.inbound.Config.discovery:type_name -> xray.proxy.gmesh.inbound.Config.Discovery
+	4, // 4: xray.proxy.gmesh.inbound.Config.routing:type_name -> xray.proxy.gmesh.inbound.Config.Routing
+	5, // [5:5] is the sub-list for method output_type
+	5, // [5:5] is the sub-list for method input_type
+	5, // [5:5] is the sub-list for extension type_name
+	5, // [5:5] is the sub-list for extension extendee
+	0, // [0:5] is the sub-list for field type_name
 }
 
 func init() { file_proxy_gmesh_inbound_config_proto_init() }
@@ -350,7 +497,7 @@ func file_proxy_gmesh_inbound_config_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_proxy_gmesh_inbound_config_proto_rawDesc), len(file_proxy_gmesh_inbound_config_proto_rawDesc)),
 			NumEnums:      1,
-			NumMessages:   2,
+			NumMessages:   4,
 			NumExtensions: 0,
 			NumServices:   0,
 		},

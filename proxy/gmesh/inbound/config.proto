@@ -23,16 +23,31 @@ message Config {
 
   string decryption = 3;
   uint32 xorMode = 4;
-  int64 seconds_from = 5;
-  int64 seconds_to = 6;
-  string padding = 7;
+  string padding = 5;
 
   enum Mode {
     COMPATIBILITY = 0;
     RELAY = 1;
     LEAF = 2;
   }
-  Mode mode = 8;
-  string node_id = 9;
-  uint32 version = 10;
+  Mode mode = 6;
+
+  string node_id = 7;
+  uint32 version = 8;
+
+  message Discovery {
+    bool lan_discovery = 1;
+    uint32 announcement_interval = 2;
+    string dht_network_id = 3;
+  }
+  Discovery discovery = 9;
+
+  message Routing {
+    uint32 max_peers = 1;
+    string strategy = 2;
+    uint32 route_ttl = 3;
+  }
+  Routing routing = 10;
+  int64 seconds_from = 11;
+  int64 seconds_to = 12;
 }
